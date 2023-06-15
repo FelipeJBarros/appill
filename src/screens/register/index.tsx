@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-export default function Medications() {
+export default function Register() {
     return (
         <View 
             style={{ 
@@ -10,7 +10,7 @@ export default function Medications() {
                 alignItems: 'center'
             }}
         >
-            <Text>This is medication screen</Text>
+            <Text>This is register form</Text>
         </View>
-    )
+    )    
 }
