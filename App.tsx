@@ -8,6 +8,7 @@ import RegisterScreen from './src/screens/register';
 import MedicationScreen from './src/screens/medications';
 
 import { Ionicons } from '@expo/vector-icons';
+import { CustomTabItem, FloatingTabItem } from './src/components/layout';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,44 +16,68 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
+        screenOptions={{
           headerShown: false,
-          tabBarIcon: ({ size, color }) => {
-            let iconName;
-
-            switch(route.name) {
-              case 'home':
-                iconName = 'home-sharp'
-                break;
-              case 'register':
-                iconName = 'add-circle'
-                break;
-              case 'medication':
-                iconName = 'bandage-sharp';
-                break;
-              default:
-                iconName = 'home-sharp'
-            }
-            return <Ionicons name={iconName} size={size} color={color} />
-          },
-          tabBarActiveTintColor: '#b2072a',
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: '#AC0C29',
+          tabBarInactiveTintColor: '#ADADAD',
           tabBarStyle: {
-            backgroundColor: 'transparent',
+            position: 'absolute',
+            bottom: 0,
+            zIndex: 5,
+            backgroundColor: '#F2F2F2',
             elevation: 0,
+            height: 64
           }
-        })}
+        }}
       >
         <Tab.Screen
           name="home"
           component={HomeScreen}
+          options={{
+            tabBarIcon: ({ size, color }) => (
+              <CustomTabItem
+                label='Home' color={color}
+                icon={
+                  <Ionicons
+                    name="home-outline"
+                    size={size} color={color}
+                  />
+                }
+              />
+            )
+          }}
         />
-        <Tab.Screen 
-          name="register" 
+        <Tab.Screen
+          name="register"
           component={RegisterScreen}
+          options={{
+            tabBarIcon: ({ size }) => (
+              <Ionicons name='add' size={size * 2} color="#F2F2F2" />
+            ),
+            tabBarButton: ({ onPress, children }) => (
+              <FloatingTabItem onPress={onPress}>
+                {children}
+              </FloatingTabItem>
+            )
+          }}
         />
         <Tab.Screen
           name="medication"
           component={MedicationScreen}
+          options={{
+            tabBarIcon: ({ size, color }) => (
+              <CustomTabItem
+                label='Medicações' color={color}
+                icon={
+                  <Ionicons
+                    name="clipboard-outline"
+                    size={size} color={color}
+                  />
+                }
+              />
+            )
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>
