@@ -99,6 +99,8 @@ export default function App() {
           options={{
             title: '',
             headerShown: true,
+            headerStyle: { backgroundColor: '#F2F2F2'},
+            headerShadowVisible: false,
           }}
         />
         <Stack.Screen
@@ -109,13 +111,12 @@ export default function App() {
           name='register-medication'
           component={RegisterMedicationScreen}
           options={{
-            title: 'Nova medicação',
             headerShown: true,
+            title: 'Nova medicação',
             headerStyle: {
-              backgroundColor: '#AC0C29',
+              backgroundColor: '#AC0C29'
             },
-            headerTintColor: '#F2F2F2',
-
+            headerTintColor: '#F2F2F2'
           }}
         />
       </Stack.Navigator>
