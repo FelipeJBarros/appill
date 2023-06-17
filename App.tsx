@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import HomeScreen from './src/screens/home';
 import RegisterMedicationScreen from './src/screens/registerMedication';
@@ -14,10 +14,16 @@ import AlarmScreen from './src/screens/alarm';
 import { Ionicons } from '@expo/vector-icons';
 import { CustomTabItem, FloatingTabItem } from './src/components/layout';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+import { RootStackParamList, RootTabParamList } from './src/types';
+type TabScreensProps = NativeStackScreenProps<RootStackParamList, 'tab-screens'>
 
-function TabScreens({ navigation }) {
+const Tab = createBottomTabNavigator<RootTabParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+function TabScreens({ navigation }: TabScreensProps) {
+
+  const { navigate } = navigation;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -55,7 +61,9 @@ function TabScreens({ navigation }) {
             <Ionicons name='add' size={size * 2} color="#F2F2F2" />
           ),
           tabBarButton: ({ children }) => (
-            <FloatingTabItem onPress={() => navigation.navigate('register-medication')}>
+            <FloatingTabItem
+              onPress={() => navigate('register-medication', {})}
+            >
               {children}
             </FloatingTabItem>
           )
@@ -99,7 +107,7 @@ export default function App() {
           options={{
             title: '',
             headerShown: true,
-            headerStyle: { backgroundColor: '#F2F2F2'},
+            headerStyle: { backgroundColor: '#F2F2F2' },
             headerShadowVisible: false,
           }}
         />

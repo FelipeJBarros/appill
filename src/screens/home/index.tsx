@@ -1,7 +1,11 @@
 import React from "react";
 import { Text, View, Button } from "react-native";
 
-export default function Home({ navigation }) {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'home'>
+
+export default function Home({ navigation }: HomeScreenProps) {
     const { navigate } = navigation;
     return (
         <View 
@@ -16,12 +20,12 @@ export default function Home({ navigation }) {
             <Text>This is home</Text>
             <Button
                 title="Go to login"
-                onPress={() => navigate('login')}
+                onPress={() => navigate('login', {})}
             />
 
             <Button
                 title="Go to alarm"
-                onPress={() => navigate('alarm')}
+                onPress={() => navigate('alarm', {})}
             />
         </View>
     )    
