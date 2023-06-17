@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
+import appillTheme from './src/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { CustomTabItem, FloatingTabItem } from './src/components/layout';
 import { NativeBaseProvider } from 'native-base';
@@ -33,9 +34,6 @@ function TabScreens({ navigation }: TabScreensProps) {
         tabBarActiveTintColor: '#AC0C29',
         tabBarInactiveTintColor: '#ADADAD',
         tabBarStyle: {
-          position: 'absolute',
-          bottom: 0,
-          zIndex: 5,
           backgroundColor: '#f9f9f9',
           elevation: 0,
           height: 64
@@ -79,7 +77,7 @@ function TabScreens({ navigation }: TabScreensProps) {
               label='Medicações' color={color}
               icon={<Ionicons name="clipboard-outline" size={size} color={color} />}
             />
-          )
+          ),
         }}
       />
     </Tab.Navigator>
@@ -88,7 +86,7 @@ function TabScreens({ navigation }: TabScreensProps) {
 
 export default function App() {
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={appillTheme}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
