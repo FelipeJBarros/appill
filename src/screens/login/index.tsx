@@ -1,11 +1,11 @@
 import React from "react";
 import { Text, View, Button } from "react-native";
 
-export default function Home({ navigation }) {
+export default function Login({ navigation }) {
     const { navigate } = navigation;
     return (
-        <View 
-            style={{ 
+        <View
+            style={{
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -13,16 +13,11 @@ export default function Home({ navigation }) {
                 gap: 8
             }}
         >
-            <Text>This is home</Text>
+            <Text>This is Login</Text>
             <Button
-                title="Go to login"
-                onPress={() => navigate('login')}
-            />
-
-            <Button
-                title="Go to alarm"
-                onPress={() => navigate('alarm')}
+                title="Go to register"
+                onPress={() => navigate('register')}
             />
         </View>
-    )    
+    )
 }
