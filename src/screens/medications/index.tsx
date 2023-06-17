@@ -1,16 +1,14 @@
 import React from "react";
 import { Text, View } from "react-native";
+import { Box } from 'native-base';
 
 export default function Medications() {
     return (
-        <View 
-            style={{ 
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}
+        <Box 
+            flex={1} alignItems={'center'} justifyContent={'center'}
+            bg={"gray.400"} mb={'64px'}
         >
             <Text>This is medication screen</Text>
-        </View>
+        </Box>
     )
 }

@@ -1,6 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { Ionicons } from '@expo/vector-icons';
+import { CustomTabItem, FloatingTabItem } from './src/components/layout';
+import { NativeBaseProvider } from 'native-base';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -10,9 +14,6 @@ import MedicationScreen from './src/screens/medications';
 import LoginScreen from './src/screens/login';
 import RegisterScreen from './src/screens/register';
 import AlarmScreen from './src/screens/alarm';
-
-import { Ionicons } from '@expo/vector-icons';
-import { CustomTabItem, FloatingTabItem } from './src/components/layout';
 
 import { RootStackParamList, RootTabParamList } from './src/types';
 type TabScreensProps = NativeStackScreenProps<RootStackParamList, 'tab-screens'>
@@ -87,47 +88,49 @@ function TabScreens({ navigation }: TabScreensProps) {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen
-          name='tab-screens'
-          component={TabScreens}
-        />
-        <Stack.Screen
-          name='login'
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name='register'
-          component={RegisterScreen}
-          options={{
-            title: '',
-            headerShown: true,
-            headerStyle: { backgroundColor: '#F2F2F2' },
-            headerShadowVisible: false,
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
           }}
-        />
-        <Stack.Screen
-          name='alarm'
-          component={AlarmScreen}
-        />
-        <Stack.Screen
-          name='register-medication'
-          component={RegisterMedicationScreen}
-          options={{
-            headerShown: true,
-            title: 'Nova medicação',
-            headerStyle: {
-              backgroundColor: '#AC0C29'
-            },
-            headerTintColor: '#F2F2F2'
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+        >
+          <Stack.Screen
+            name='tab-screens'
+            component={TabScreens}
+          />
+          <Stack.Screen
+            name='login'
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            name='register'
+            component={RegisterScreen}
+            options={{
+              title: '',
+              headerShown: true,
+              headerStyle: { backgroundColor: '#F2F2F2' },
+              headerShadowVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name='alarm'
+            component={AlarmScreen}
+          />
+          <Stack.Screen
+            name='register-medication'
+            component={RegisterMedicationScreen}
+            options={{
+              headerShown: true,
+              title: 'Nova medicação',
+              headerStyle: {
+                backgroundColor: '#AC0C29'
+              },
+              headerTintColor: '#F2F2F2'
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   )
 }
