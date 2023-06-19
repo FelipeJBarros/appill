@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from "native-base";
+import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 
 interface PageProps {
     children?: React.ReactNode,
@@ -9,7 +10,7 @@ interface PageProps {
 export function Page({ children, spacing = 0 }: PageProps) {
     return (
         <>
-            <Box flexGrow={1} bg='neutral.100' maxHeight='full'>
+            <KeyboardAvoidingView style={styles.container}>
                 <Box flexGrow={2} bg='brand.800' borderBottomRadius={20} />
                 <Box flexGrow={1} bg='neutral.100' />
                 <Box
@@ -21,7 +22,14 @@ export function Page({ children, spacing = 0 }: PageProps) {
                     {children}
                 </Box>
                 <Box height='64px' />
-            </Box>
+            </KeyboardAvoidingView>
         </>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#E0E0E0'
+    }
+})

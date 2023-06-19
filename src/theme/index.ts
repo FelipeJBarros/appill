@@ -26,7 +26,24 @@ export default extendTheme({
             800: '#141414',
             900: '#0A0A0A',
         },
-        
     },
-
+    components: {
+        Input: {
+            defaultProps: {
+                size: 'md',
+                placeholderTextColor: 'neutral.400',
+                rounded: 'lg',
+                bg: '#FCFDFD',
+            },
+        },
+        VStack: {
+            variants: {
+                filled: () => ({
+                    bg: '#FCFDFD',
+                    borderRadius: 10,
+                    padding: 2
+                })
+            },
+        }
+    }
 })
