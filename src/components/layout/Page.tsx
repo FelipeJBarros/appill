@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, StatusBar } from "native-base";
+import { Box } from "native-base";
 
 interface PageProps {
     children?: React.ReactNode,
@@ -9,7 +9,6 @@ interface PageProps {
 export function Page({ children, spacing = 0 }: PageProps) {
     return (
         <>
-            <StatusBar backgroundColor='#AC0C29'/>
             <Box flexGrow={1} bg='neutral.100' maxHeight='full'>
                 <Box flexGrow={2} bg='brand.800' borderBottomRadius={20} />
                 <Box flexGrow={1} bg='neutral.100' />
