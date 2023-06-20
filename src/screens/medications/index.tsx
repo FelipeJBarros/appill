@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Page } from "../../components/layout";
+import { Toggle } from "../../components/inputs";
 import { SettingsDisplay } from "../../components/overlay";
 
 import { Box, Heading, HStack, IconButton, Icon, Modal, Input, VStack } from "native-base";
@@ -10,6 +11,7 @@ const SearchIcon = <Icon as={Ionicons} name="search" ml={2} color='neutral.400' 
 
 export default function Medications() {
     const [isModalOpen, setModalOpenStatus] = useState(false);
+    const [toogleStatus, setToogleStatus] = useState(true);
     return (
         <>
             <Page spacing={12}>
@@ -25,10 +27,15 @@ export default function Medications() {
                 <Input
                     placeholder="Pesquise suas medicações"
                     leftElement={SearchIcon}
-                    variant='brand'
                     placeholderTextColor='neutral.400'
                 />
-                <Box height='36px' bg='#FCFDFD' />
+                <Toggle
+                    firstOptionLabel="Ativos"
+                    lastOptionLabel="Pausados"
+                    value={toogleStatus}
+                    onChange={setToogleStatus}
+                    size="md"
+                />
                 <VStack variant='filled' flex={1}>
                     <Box>items</Box>
                 </VStack>

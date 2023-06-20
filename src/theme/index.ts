@@ -26,11 +26,12 @@ export default extendTheme({
             800: '#141414',
             900: '#0A0A0A',
         },
+        paper: '#FCFDFD'
     },
     components: {
         Input: {
             defaultProps: {
-                size: 'md',
+                size: 'lg',
                 placeholderTextColor: 'neutral.400',
                 rounded: 'lg',
                 bg: '#FCFDFD',
@@ -44,6 +45,6 @@ export default extendTheme({
                     padding: 2
                 })
             },
-        }
+        },
     }
 })
