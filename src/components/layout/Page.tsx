@@ -4,14 +4,17 @@ import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 
 interface PageProps {
     children?: React.ReactNode,
-    spacing?: number
+    spacing?: number,
+    showPattern?: boolean
 }
 
-export function Page({ children, spacing = 0 }: PageProps) {
+export function Page({ children, spacing = 0, showPattern = true }: PageProps) {
     return (
         <>
             <KeyboardAvoidingView style={styles.container}>
-                <Box flexGrow={2} bg='brand.800' borderBottomRadius={20} />
+                {showPattern &&
+                    <Box flexGrow={2} bg='brand.800' borderBottomRadius={20} />
+                }
                 <Box flexGrow={1} bg='neutral.100' />
                 <Box
                     position='absolute' top={0} paddingX={4} paddingY={2}

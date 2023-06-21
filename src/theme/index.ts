@@ -40,6 +40,14 @@ export default extendTheme({
                 }
             },
         },
+        Select: {
+            defaultProps: {
+                flex: 1,
+                textAlign: 'right',
+                color: 'neutral.600',
+                borderWidth: 0
+            },
+        },
         VStack: {
             variants: {
                 filled: () => ({
