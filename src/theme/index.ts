@@ -35,6 +35,9 @@ export default extendTheme({
                 placeholderTextColor: 'neutral.400',
                 rounded: 'lg',
                 bg: '#FCFDFD',
+                _focus: {
+                    bg: '#FCFDFD',
+                }
             },
         },
         VStack: {
