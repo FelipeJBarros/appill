@@ -28,6 +28,43 @@ export default extendTheme({
         },
         paper: '#FCFDFD'
     },
+    fontConfig : {
+        Montserrat: {
+            100: {
+                normal: "Montserrat-Thin",
+                italic: "Montserrat-ThinItalic"
+            },
+            200: {
+                normal: "Montserrat-ExtraLight",
+                italic: "Montserrat-ExtraLightItalic",
+              },
+              300: {
+                normal: "Montserrat-Light",
+                italic: "Montserrat-LightItalic",
+              },
+              400: {
+                normal: "Montserrat-Regular",
+                italic: "Montserrat-Italic",
+              },
+              500: {
+                normal: "Montserrat-Medium",
+              },
+              600: {
+                normal: "Montserrat-SemiBold",
+                italic: "Montserrat-SemiBoldItalic",
+              },
+              700: {
+                normal: "Montserrat-Bold",
+                italic: "Montserrat-BoldItalic",
+              },
+        }
+    },
+
+    fonts: {
+        heading: "Montserrat",
+    body: "Montserrat",
+    mono: "Montserrat",
+    },
     components: {
         Input: {
             defaultProps: {
