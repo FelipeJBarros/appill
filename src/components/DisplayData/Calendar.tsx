@@ -66,6 +66,9 @@ export default function Calendar() {
                       calendarHeaderContainerStyle={{ justifyContent: 'flex-end', alignItems: 'flex-end'}}
                       calendarHeaderStyle={{fontSize: 1, color: '#fff',justifyContent: 'flex-start', alignItems: 'flex-start'}}
                       headerText=" "
+                      highlightDateNameStyle={{color: '#F98B9D'}}
+                      highlightDateNumberStyle	={{color: '#fff', fontSize: 20}}
+                      highlightDateContainerStyle={{backgroundColor: '#EF1A41'}}
                       leftSelector={[]}
                       rightSelector={[]}
                       dateNameStyle={{color: '#F98B9D'}}
