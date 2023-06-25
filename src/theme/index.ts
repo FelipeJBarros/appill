@@ -40,6 +40,21 @@ export default extendTheme({
                 }
             },
         },
+        Button: {
+            variants: {
+                brand: () => {
+                    return {
+                        bg: 'brand.800',
+                        _pressed: {
+                            bg: 'brand.900'
+                        },
+                        _text: {
+                            color: 'paper'
+                        }
+                    }
+                }
+            },
+        },
         Select: {
             defaultProps: {
                 flex: 1,
