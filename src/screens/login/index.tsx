@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Heading, Image, Input, Text, Button, VStack, Link, HStack, FormControl } from "native-base";
 import { Password } from "../../components/inputs";
 
@@ -9,9 +9,12 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'login'>
 import { initialValues, loginValidation } from "../../formsData/loginFormData";
 import { Formik } from "formik";
 
+import { Context as AuthContext } from "../../context/authContext";
+
 export default function Login({ navigation }: LoginScreenProps) {
     const { navigate } = navigation;
     const backgroundImage = require('../../../assets/imgs/colorfull.png')
+    const { handleLogin } = useContext(AuthContext);
     return (
         <Box bg={'brand.800'} maxHeight='full'>
             <Image
@@ -53,7 +56,7 @@ export default function Login({ navigation }: LoginScreenProps) {
                         initialValues={initialValues}
                         validationSchema={loginValidation}
                         onSubmit={(values, actions) => {
-                            console.log(values)
+                            handleLogin(values.email, values.password)
                             actions.resetForm();
                         }}
                     >
@@ -62,12 +65,13 @@ export default function Login({ navigation }: LoginScreenProps) {
                             handleBlur,
                             handleSubmit,
                             values,
+                            touched,
                             errors
                         }) => (
                             <VStack space={4}>
                                 <FormControl
-                                    isRequired
-                                    isInvalid={'email' in errors}
+                                    isRequired={true && touched.email}
+                                    isInvalid={'email' in errors  && touched.email}
                                 >
                                     <Input
                                         value={values.email}
@@ -80,8 +84,8 @@ export default function Login({ navigation }: LoginScreenProps) {
                                     </FormControl.ErrorMessage>
                                 </FormControl>
                                 <FormControl
-                                    isRequired
-                                    isInvalid={'password' in errors}
+                                    isRequired={true && touched.password}
+                                    isInvalid={'password' in errors && touched.password}
                                 >
                                     <Password
                                         value={values.password}
