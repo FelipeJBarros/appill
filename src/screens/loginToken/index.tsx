@@ -5,7 +5,11 @@ import api from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
 
-export default function LoginToken({ navigation }) {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
+type LoginTokenScreenProps = NativeStackScreenProps<RootStackParamList, 'loginToken'>
+
+export default function LoginToken({ navigation }: LoginTokenScreenProps) {
 
     const { navigate } = navigation;
 
@@ -16,12 +20,12 @@ export default function LoginToken({ navigation }) {
                 try {
                     api.defaults.headers["Authorization"] = `Bearer ${token}`
                     const response = await api.get('/auth/me');
-                    navigate('tab-screens')
+                    navigate('tab-screens', {})
                 } catch (error) {
-                    navigate('login')
+                    navigate('login', {})
                 }
             } else {
-                navigate('login')
+                navigate('login', {})
             }
         }
 

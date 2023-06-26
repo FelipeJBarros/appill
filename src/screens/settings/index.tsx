@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Box, Heading, Icon } from "native-base";
-import { Toggle } from '../inputs';
+import { Box, Button, Heading, Icon, VStack } from "native-base";
+import { Page } from '../../components/layout';
+import { Toggle } from '../../components/inputs';
 
 import { Ionicons } from '@expo/vector-icons';
 const sunIcon = <Icon as={Ionicons} name='sunny' size='sm' />
@@ -8,22 +9,13 @@ const moonIcon = <Icon as={Ionicons} name='moon' size='sm' />
 const notificationOnIcon = <Icon as={Ionicons} name='notifications' size='sm' />
 const notificationOffIcon = <Icon as={Ionicons} name='notifications-off' size='sm' />
 
-
-export function SettingsDisplay() {
+export default function Settings() {
     const [themeStatus, setThemeStatus] = useState(true);
     const [notificationStatus, setNotificationStatus] = useState(true);
 
     return (
-        <Box
-            padding={2}
-            width={'3/5'} height={'full'} bg={'#FCFDFD'}
-            position={'absolute'} top={0} right={0}
-            borderTopLeftRadius={10}
-            borderBottomLeftRadius={10}
-            justifyContent='space-between'
-            alignItems='center'
-        >
-            <Box width='full' style={{ gap: 8 }}>
+        <Box flex={1} p={4}>
+            <VStack space={2} flex={1}>
                 <Heading size={"sm"}>Esquema de cores</Heading>
                 <Box bg='neutral.100' p={0.5} borderRadius={10}>
                     <Toggle
@@ -33,7 +25,7 @@ export function SettingsDisplay() {
                         lastIcon={moonIcon}
                         value={themeStatus}
                         onChange={setThemeStatus}
-                        size='sm'
+                        size='md'
                     />
                 </Box>
                 <Heading size={"sm"}>Notificações</Heading>
@@ -45,11 +37,23 @@ export function SettingsDisplay() {
                         lastIcon={notificationOffIcon}
                         value={notificationStatus}
                         onChange={setNotificationStatus}
-                        size='sm'
+                        size='md'
                     />
                 </Box>
-            </Box>
-            Sair
+            </VStack>
+            <Button
+                variant='outline'
+                borderColor='brand.500'
+                _text={{
+                    color: 'brand.500',
+                    fontSize: 'md'
+                }}
+                _pressed={{
+                    bg: 'brand.100'
+                }}
+            >
+                Sair
+            </Button>
         </Box>
     )
 }

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Page } from "../../components/layout";
 import { Toggle } from "../../components/inputs";
-import { SettingsDisplay } from "../../components/overlay";
 import { MedicationListItem } from "../../components/display-data";
 
 import {
@@ -16,8 +15,8 @@ import {
     ScrollView,
 } from "native-base";
 
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-const SettingIcon = <Icon as={AntDesign} name='setting' color="#FCFDFD" size={6} />
+import { Ionicons } from '@expo/vector-icons';
+const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color="white" />
 const SearchIcon = <Icon as={Ionicons} name="search" ml={2} color='neutral.400' size={6} />
 
 const _mock = [
@@ -45,50 +44,39 @@ const _mock = [
 ]
 
 export default function Medications() {
-    const [isModalOpen, setModalOpenStatus] = useState(false);
     const [toogleStatus, setToogleStatus] = useState(true);
     return (
-        <>
-            <Page spacing={12}>
-                <HStack justifyContent='space-between' alignItems='center'>
-                    <Heading color="#FCFDFD">
-                        Medicações
-                    </Heading>
-                    <IconButton
-                        icon={SettingIcon}
-                        onPress={() => setModalOpenStatus(true)}
-                    />
-                </HStack>
-                <Input
-                    placeholder="Pesquise suas medicações"
-                    leftElement={SearchIcon}
-                    placeholderTextColor='neutral.400'
+        <Page spacing={12}>
+            <HStack justifyContent='space-between' alignItems='center'>
+                <Heading color="paper">
+                    Medicações
+                </Heading>
+                <IconButton
+                    icon={OptionsIcon}
                 />
-                <Toggle
-                    firstOptionLabel="Ativos"
-                    lastOptionLabel="Pausados"
-                    value={toogleStatus}
-                    onChange={setToogleStatus}
-                    size="md"
-                />
-                <VStack variant='filled' flex={1}>
-                    <ScrollView >
-                        {_mock.map((medication, index) => (
-                            <MedicationListItem
-                                key={index}
-                                medication={medication}
-                            />
-                        ))}
-                    </ScrollView>
-                </VStack>
-            </Page>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setModalOpenStatus(false)}
-                safeAreaTop={true}
-            >
-                <SettingsDisplay />
-            </Modal>
-        </>
+            </HStack>
+            <Input
+                placeholder="Pesquise suas medicações"
+                leftElement={SearchIcon}
+                placeholderTextColor='neutral.400'
+            />
+            <Toggle
+                firstOptionLabel="Ativos"
+                lastOptionLabel="Pausados"
+                value={toogleStatus}
+                onChange={setToogleStatus}
+                size="md"
+            />
+            <VStack variant='filled' flex={1}>
+                <ScrollView >
+                    {_mock.map((medication, index) => (
+                        <MedicationListItem
+                            key={index}
+                            medication={medication}
+                        />
+                    ))}
+                </ScrollView>
+            </VStack>
+        </Page>
     )
 }
