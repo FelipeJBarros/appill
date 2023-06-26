@@ -1,9 +1,13 @@
 import React from "react";
-import { Box, Heading, Image, Input, Text, Button, VStack, Link, HStack } from "native-base";
+import { Box, Heading, Image, Input, Text, Button, VStack, Link, HStack, FormControl } from "native-base";
+import { Password } from "../../components/inputs";
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'login'>
+
+import { initialValues, loginValidation } from "../../formsData/loginFormData";
+import { Formik } from "formik";
 
 export default function Login({ navigation }: LoginScreenProps) {
     const { navigate } = navigation;
@@ -45,25 +49,70 @@ export default function Login({ navigation }: LoginScreenProps) {
                             Faça o login par acessar a aplicação
                         </Text>
                     </Box>
-                    <Input
-                        placeholder="Email"
-                    />
-                    <Input
-                        placeholder="Senha"
-                    />
-                    <Button
-                        variant='brand'
-                        _text={{ fontWeight: 'bold', fontSize: 'xl'}}
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={loginValidation}
+                        onSubmit={(values, actions) => {
+                            console.log(values)
+                            actions.resetForm();
+                        }}
                     >
-                        Entrar
-                    </Button>
+                        {({
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            values,
+                            errors
+                        }) => (
+                            <VStack space={4}>
+                                <FormControl
+                                    isRequired
+                                    isInvalid={'email' in errors}
+                                >
+                                    <Input
+                                        value={values.email}
+                                        onChangeText={handleChange('email')}
+                                        onBlur={handleBlur('email')}
+                                        placeholder="Email"
+                                    />
+                                    <FormControl.ErrorMessage>
+                                        {errors.email}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+                                <FormControl
+                                    isRequired
+                                    isInvalid={'password' in errors}
+                                >
+                                    <Password
+                                        value={values.password}
+                                        onChangeText={handleChange('password')}
+                                        onBlur={handleBlur('password')}
+                                        placeholder="Senha"
+                                    />
+                                    <FormControl.ErrorMessage>
+                                        {errors.password}
+                                    </FormControl.ErrorMessage>
+                                </FormControl>
+                                <Button
+                                    variant='brand'
+                                    _text={{
+                                        fontWeight: 'bold',
+                                        fontSize: 'xl'
+                                    }}
+                                    onPress={() => handleSubmit()}
+                                >
+                                    Entrar
+                                </Button>
+                            </VStack>
+                        )}
+                    </Formik>
                     <HStack
                         alignItems='center' justifyContent='center'
                         flexDir='row' space={1}
                     >
                         <Text bold>Ainda não possui conta?</Text>
                         <Link
-                            _text={{ color: 'brand.800', fontWeight: 'bold'}}
+                            _text={{ color: 'brand.800', fontWeight: 'bold' }}
                             onPress={() => navigate('register', {})}
                         >
                             Registre-se aqui
