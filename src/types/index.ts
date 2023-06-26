@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+    loginToken: {}
     login: {}
     register: {}
     alarm: {}
