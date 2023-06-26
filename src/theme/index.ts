@@ -49,7 +49,7 @@ export default extendTheme({
                             bg: 'brand.900'
                         },
                         _text: {
-                            color: 'paper'
+                            color: 'paper',
                         }
                     }
                 }

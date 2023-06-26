@@ -49,10 +49,12 @@ export default function RegisterMedication() {
                         </LabeledSelect>
                     </VStack>
                 </ScrollView>
-                <Button bg='brand.800' mb={2}>
-                    <Text fontSize='lg' fontWeight='bold' color='neutral.50'>
+                <Button
+                    variant='brand'
+                    _text={{ fontWeight: 'bold', fontSize: 'lg'}}
+                    mb={2}
+                >
                         Registrar
-                    </Text>
                 </Button>
             </VStack>
         </KeyboardAvoidingView>
