@@ -27,12 +27,6 @@ export default function StackRoutes() {
             <Stack.Screen
                 name='register'
                 component={RegisterScreen}
-                options={{
-                    title: '',
-                    headerShown: true,
-                    headerStyle: { backgroundColor: '#F2F2F2' },
-                    headerShadowVisible: false,
-                }}
             />
             <Stack.Screen
                 name='alarm'
