@@ -35,6 +35,32 @@ export default extendTheme({
                 placeholderTextColor: 'neutral.400',
                 rounded: 'lg',
                 bg: '#FCFDFD',
+                _focus: {
+                    bg: '#FCFDFD',
+                }
+            },
+        },
+        Button: {
+            variants: {
+                brand: () => {
+                    return {
+                        bg: 'brand.800',
+                        _pressed: {
+                            bg: 'brand.900'
+                        },
+                        _text: {
+                            color: 'paper',
+                        }
+                    }
+                }
+            },
+        },
+        Select: {
+            defaultProps: {
+                flex: 1,
+                textAlign: 'right',
+                color: 'neutral.600',
+                borderWidth: 0
             },
         },
         VStack: {
