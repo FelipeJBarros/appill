@@ -19,7 +19,7 @@ const handleLogin = (dispatch) => {
                 password,
             })
 
-            let token = JSON.stringify(response.data.token)
+            let token = response.data.token
 
             await AsyncStorage.setItem(
                 '@Auth_token',
@@ -27,9 +27,21 @@ const handleLogin = (dispatch) => {
             )
  
             api.defaults.headers["Authorization"] = `Bearer ${token}`
+
+            console.log({
+                token,
+                data: response.data
+            })
         } catch (error) {
             console.log(JSON.stringify(error.response.data, null, 2))
         }
+    }
+}
+
+const handleLogout = (dispatch) => {
+    return async () => {
+        api.defaults.headers["Authorization"] = undefined
+        await AsyncStorage.removeItem('@Auth_token')
     }
 }
 
@@ -59,7 +71,8 @@ export const { Context, Provider } = createContext(
     reducer,
     { 
         handleLogin,
-        handleUserCreation
+        handleUserCreation,
+        handleLogout
     },
     initialState
 )

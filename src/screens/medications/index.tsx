@@ -9,7 +9,6 @@ import {
     HStack,
     IconButton,
     Icon,
-    Modal,
     Input,
     VStack,
     ScrollView,

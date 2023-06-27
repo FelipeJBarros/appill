@@ -36,13 +36,19 @@ export default function Home({ navigation }: HomeScreenProps) {
                 <HStack
                     justifyContent='center' alignItems='center'
                     backgroundColor='brand.900'
-                    borderRadius={10}
-                    p={4} space={4}
+                    borderRadius={10} p={4} space={8}
                 >
-                    <Image source={require('../../../assets/images/pill-icon.png')} alt={"pilula"} marginRight={5}></Image>
+                    <Image
+                        source={require('../../../assets/images/pill-icon.png')}
+                        alt={"progress-indicator"}
+                    />
                     <VStack justifyContent='center' alignItems='center' >
-                        <Text color={'#fff'} fontSize={'lg'} bold>Quarta-feira, 07 de junho</Text>
-                        <Text color={'#fff'} fontSize={'md'}><Text bold>01/03 </Text>medicações realizadas</Text>
+                        <Text color='paper' fontSize={'lg'} bold>
+                            Quarta-feira, 07 de junho
+                        </Text>
+                        <Text color='paper' fontSize={'md'}>
+                            <Text bold>01/03</Text> medicações realizadas
+                        </Text>
                     </VStack>
                 </HStack>
                 <VStack variant='filled' flex={1}>

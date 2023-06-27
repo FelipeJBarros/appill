@@ -11,7 +11,7 @@ type LoginTokenScreenProps = NativeStackScreenProps<RootStackParamList, 'loginTo
 
 export default function LoginToken({ navigation }: LoginTokenScreenProps) {
 
-    const { navigate } = navigation;
+    const { navigate, reset } = navigation;
 
     useEffect(() => {
         const loginWithToken = async () => {
@@ -20,12 +20,25 @@ export default function LoginToken({ navigation }: LoginTokenScreenProps) {
                 try {
                     api.defaults.headers["Authorization"] = `Bearer ${token}`
                     const response = await api.get('/auth/me');
-                    navigate('tab-screens', {})
+                    console.log("login com sucesso - via token")
+                    reset({
+                        index: 0,
+                        routes: [{ name: 'tab-screens'}]
+                    })
                 } catch (error) {
-                    navigate('login', {})
+                    console.log('erro na função de login')
+                    reset({
+                        index: 0,
+                        routes: [{ name: 'login'}]
+                    })
                 }
             } else {
-                navigate('login', {})
+                console.log('não existe token para loginToken')
+                
+                reset({
+                    index: 0,
+                    routes: [{ name: 'login'}]
+                })
             }
         }
 

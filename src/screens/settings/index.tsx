@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Box, Button, Heading, Icon, VStack } from "native-base";
-import { Page } from '../../components/layout';
 import { Toggle } from '../../components/inputs';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +8,11 @@ const moonIcon = <Icon as={Ionicons} name='moon' size='sm' />
 const notificationOnIcon = <Icon as={Ionicons} name='notifications' size='sm' />
 const notificationOffIcon = <Icon as={Ionicons} name='notifications-off' size='sm' />
 
-export default function Settings() {
+import { Context as AuthContext } from '../../context/authContext';
+
+export default function Settings({ navigation }) {
+    const { navigate, reset } = navigation;
+    const { handleLogout } = useContext(AuthContext)
     const [themeStatus, setThemeStatus] = useState(true);
     const [notificationStatus, setNotificationStatus] = useState(true);
 
@@ -50,6 +53,13 @@ export default function Settings() {
                 }}
                 _pressed={{
                     bg: 'brand.100'
+                }}
+                onPress={() => {
+                    handleLogout()
+                    reset({
+                        index: 0,
+                        routes: [{ name: 'login' }]
+                    })
                 }}
             >
                 Sair

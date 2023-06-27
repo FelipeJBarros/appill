@@ -13,7 +13,7 @@ import { Formik } from "formik";
 import { Context as AuthContext } from "../../context/authContext";
 
 export default function Login({ navigation }: LoginScreenProps) {
-    const { navigate } = navigation;
+    const { navigate, reset } = navigation;
     const { handleLogin } = useContext(AuthContext);
     return (
         <AuthPage>
@@ -50,7 +50,10 @@ export default function Login({ navigation }: LoginScreenProps) {
                     onSubmit={(values, actions) => {
                         handleLogin(values.email, values.password)
                         actions.resetForm();
-                        navigate('home', {});
+                        reset({
+                            index: 0,
+                            routes: [{ name: 'tab-screens'}]
+                        })
                     }}
                 >
                     {({
