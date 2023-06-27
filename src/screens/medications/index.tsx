@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { Page } from "../../components/layout";
 import { Toggle } from "../../components/inputs";
@@ -12,6 +12,7 @@ import {
     Input,
     VStack,
     ScrollView,
+    Box,
 } from "native-base";
 
 import { Ionicons } from '@expo/vector-icons';
@@ -42,8 +43,33 @@ const _mock = [
     },
 ]
 
-export default function Medications() {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
+type MedicationScreenProps = NativeStackScreenProps<RootStackParamList, 'register-medication'>
+
+import { Context as MedicationContext } from "../../context/medicationContext";
+import { ActivityIndicator } from 'react-native';
+
+export default function Medications({ navigation }: MedicationScreenProps) {
+    const { navigate } = navigation;
     const [toogleStatus, setToogleStatus] = useState(true);
+
+    const {
+        state: { medications },
+        getMedications
+    } = useContext(MedicationContext);
+
+    useEffect(() => {
+        const getUserMedications = async () => {
+            try {
+                await getMedications();
+            } catch (error: any) {
+                console.log(error.response.data)
+            }
+        }
+        getUserMedications();
+    }, [])
+
     return (
         <Page spacing={12}>
             <HStack justifyContent='space-between' alignItems='center'>
@@ -52,6 +78,7 @@ export default function Medications() {
                 </Heading>
                 <IconButton
                     icon={OptionsIcon}
+                    onPress={() => navigate('settings', {})}
                 />
             </HStack>
             <Input
@@ -67,14 +94,32 @@ export default function Medications() {
                 size="md"
             />
             <VStack variant='filled' flex={1}>
-                <ScrollView >
-                    {_mock.map((medication, index) => (
-                        <MedicationListItem
-                            key={index}
-                            medication={medication}
-                        />
-                    ))}
-                </ScrollView>
+                {medications && medications.length > 0 ?
+                    <>
+                        <ScrollView >
+                            {medications
+                                .filter((medication: any) => medication.active)
+                                .map((medication: any) => (
+                                    <MedicationListItem
+                                        key={medication.id}
+                                        medication={medication}
+                                    />
+                                ))}
+                        </ScrollView>
+                    </> : <>
+                        <Box
+                            justifyContent='center'
+                            alignItems='center'
+                            _text={{ color: 'neutral.300' }}
+                            flex={1}
+                        >
+                            {/* <ActivityIndicator
+                                color='#AC0C29'
+                                size={40}
+                            /> */}
+                            Nada por aqui
+                        </Box>
+                    </>}
             </VStack>
         </Page>
     )

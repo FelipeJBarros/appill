@@ -21,6 +21,7 @@ export default function TabRoutes({ navigation }: TabScreensProps) {
 
     return (
         <Tab.Navigator
+            initialRouteName='medication'
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,

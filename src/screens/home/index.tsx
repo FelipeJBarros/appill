@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from "../../types";
 import { Page } from "../../components/layout";
 import { Box, HStack, Icon, IconButton, Modal, ScrollView, Text, VStack, Image} from "native-base";
 import Calendar from "../../components/DisplayData/Calendar";
 import { ListItem } from "../../components/DisplayData/ListItem";
+
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'home'>
 
 import { Context as AuthContext } from "../../context/authContext";
@@ -16,9 +17,7 @@ const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color
 
 export default function Home({ navigation }: HomeScreenProps) {
     const { navigate } = navigation;
-    const [userName, setUserName] = useState('UserName');
     const { state } = useContext(AuthContext);
-    console.log(state)
     return (
         <>
             <Page spacing={12}>

@@ -24,6 +24,7 @@ export default function LoginToken({ navigation }: LoginTokenScreenProps) {
                     api.defaults.headers["Authorization"] = `Bearer ${token}`
                     const response = await api.get('/auth/me');
                     console.log("login com sucesso - via token")
+                    console.log(JSON.stringify(response, null, 2))
                     setUser(response.data)
                     reset({
                         index: 0,
