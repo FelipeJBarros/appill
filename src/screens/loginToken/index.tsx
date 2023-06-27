@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Box } from "native-base";
 
 import api from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
+
+import { Context as AuthContext } from '../../context/authContext';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
@@ -12,6 +14,7 @@ type LoginTokenScreenProps = NativeStackScreenProps<RootStackParamList, 'loginTo
 export default function LoginToken({ navigation }: LoginTokenScreenProps) {
 
     const { navigate, reset } = navigation;
+    const { setUser } = useContext(AuthContext);
 
     useEffect(() => {
         const loginWithToken = async () => {
@@ -21,6 +24,7 @@ export default function LoginToken({ navigation }: LoginTokenScreenProps) {
                     api.defaults.headers["Authorization"] = `Bearer ${token}`
                     const response = await api.get('/auth/me');
                     console.log("login com sucesso - via token")
+                    setUser(response.data)
                     reset({
                         index: 0,
                         routes: [{ name: 'tab-screens'}]

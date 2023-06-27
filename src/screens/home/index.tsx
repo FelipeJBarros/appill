@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
@@ -8,13 +8,17 @@ import Calendar from "../../components/DisplayData/Calendar";
 import { ListItem } from "../../components/DisplayData/ListItem";
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'home'>
 
+import { Context as AuthContext } from "../../context/authContext";
+
 import { Ionicons } from '@expo/vector-icons';
 const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color="white" />
+
 
 export default function Home({ navigation }: HomeScreenProps) {
     const { navigate } = navigation;
     const [userName, setUserName] = useState('UserName');
-    const [isModalOpen, setModalOpenStatus] = useState(false);
+    const { state } = useContext(AuthContext);
+    console.log(state)
     return (
         <>
             <Page spacing={12}>
@@ -24,7 +28,7 @@ export default function Home({ navigation }: HomeScreenProps) {
                             Seja bem vindo(a),
                         </Text>
                         <Text color='paper' fontSize='xl' lineHeight='xs' bold>
-                            {userName}
+                            {state?.user?.name}
                         </Text>
                     </VStack>
                     <IconButton
