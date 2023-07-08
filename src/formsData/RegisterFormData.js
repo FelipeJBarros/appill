@@ -17,7 +17,12 @@ export const RegisterValidation = Yup.object().shape({
         .email('Email inválido')
         .required('É preciso informar um email'),
     phoneNumber: Yup
-        .string(),
+        .string()
+        .required('O número de telefone é obrigatório')
+        .matches(
+            /^(?:\+55)?\s?(?:\d{2})?\s?9?\d{4}-?\d{4}$/,
+            'Por favor, insira um número de telefone válido'
+        ),
     password: Yup
         .string()
         .required('É preciso informar a senha')
