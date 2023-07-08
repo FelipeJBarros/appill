@@ -3,6 +3,7 @@ export type RootStackParamList = {
     login: {}
     register: {}
     alarm: {}
+    settings: {}
     "register-medication": {}
     "tab-screens": {}
     home: {}

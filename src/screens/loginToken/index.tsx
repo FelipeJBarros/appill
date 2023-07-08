@@ -1,27 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Box } from "native-base";
 
 import api from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
+type LoginTokenScreenProps = NativeStackScreenProps<RootStackParamList, 'loginToken'>
 
-export default function LoginToken({ navigation }) {
+export default function LoginToken({ navigation }: LoginTokenScreenProps) {
 
-    const { navigate } = navigation;
+    const { reset } = navigation;
 
     useEffect(() => {
         const loginWithToken = async () => {
-            let token = await AsyncStorage.getItem('@Auth_token')
+            let token = await AsyncStorage.getItem('@AppillAuth_token')
             if (token) {
                 try {
                     api.defaults.headers["Authorization"] = `Bearer ${token}`
                     const response = await api.get('/auth/me');
-                    navigate('tab-screens')
+                    reset({
+                        index: 0,
+                        routes: [{ name: 'tab-screens'}]
+                    })
                 } catch (error) {
-                    navigate('login')
+                    console.log('erro na função de login')
+                    reset({
+                        index: 0,
+                        routes: [{ name: 'login'}]
+                    })
                 }
             } else {
-                navigate('login')
+                reset({
+                    index: 0,
+                    routes: [{ name: 'login'}]
+                })
             }
         }
 

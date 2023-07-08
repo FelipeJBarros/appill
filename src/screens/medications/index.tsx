@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { Page } from "../../components/layout";
 import { Toggle } from "../../components/inputs";
-import { SettingsDisplay } from "../../components/overlay";
 import { MedicationListItem } from "../../components/display-data";
 
 import {
@@ -10,14 +9,14 @@ import {
     HStack,
     IconButton,
     Icon,
-    Modal,
     Input,
     VStack,
     ScrollView,
+    Box,
 } from "native-base";
 
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-const SettingIcon = <Icon as={AntDesign} name='setting' color="#FCFDFD" size={6} />
+import { Ionicons } from '@expo/vector-icons';
+const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color="white" />
 const SearchIcon = <Icon as={Ionicons} name="search" ml={2} color='neutral.400' size={6} />
 
 const _mock = [
@@ -44,51 +43,84 @@ const _mock = [
     },
 ]
 
-export default function Medications() {
-    const [isModalOpen, setModalOpenStatus] = useState(false);
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
+type MedicationScreenProps = NativeStackScreenProps<RootStackParamList, 'register-medication'>
+
+import { Context as MedicationContext } from "../../context/medicationContext";
+import { ActivityIndicator } from 'react-native';
+
+export default function Medications({ navigation }: MedicationScreenProps) {
+    const { navigate } = navigation;
     const [toogleStatus, setToogleStatus] = useState(true);
+
+    const {
+        state: { medications },
+        getMedications
+    } = useContext(MedicationContext);
+
+    useEffect(() => {
+        const getUserMedications = async () => {
+            try {
+                await getMedications();
+            } catch (error: any) {
+                console.log(error.response.data)
+            }
+        }
+        getUserMedications();
+    }, [])
+
     return (
-        <>
-            <Page spacing={12}>
-                <HStack justifyContent='space-between' alignItems='center'>
-                    <Heading color="#FCFDFD">
-                        Medicações
-                    </Heading>
-                    <IconButton
-                        icon={SettingIcon}
-                        onPress={() => setModalOpenStatus(true)}
-                    />
-                </HStack>
-                <Input
-                    placeholder="Pesquise suas medicações"
-                    leftElement={SearchIcon}
-                    placeholderTextColor='neutral.400'
+        <Page spacing={12}>
+            <HStack justifyContent='space-between' alignItems='center'>
+                <Heading color="paper">
+                    Medicações
+                </Heading>
+                <IconButton
+                    icon={OptionsIcon}
+                    onPress={() => navigate('settings', {})}
                 />
-                <Toggle
-                    firstOptionLabel="Ativos"
-                    lastOptionLabel="Pausados"
-                    value={toogleStatus}
-                    onChange={setToogleStatus}
-                    size="md"
-                />
-                <VStack variant='filled' flex={1}>
-                    <ScrollView >
-                        {_mock.map((medication, index) => (
-                            <MedicationListItem
-                                key={index}
-                                medication={medication}
-                            />
-                        ))}
-                    </ScrollView>
-                </VStack>
-            </Page>
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setModalOpenStatus(false)}
-                safeAreaTop={true}
-            >
-                <SettingsDisplay />
-            </Modal>
-        </>
+            </HStack>
+            <Input
+                placeholder="Pesquise suas medicações"
+                leftElement={SearchIcon}
+                placeholderTextColor='neutral.400'
+            />
+            <Toggle
+                firstOptionLabel="Ativos"
+                lastOptionLabel="Pausados"
+                value={toogleStatus}
+                onChange={setToogleStatus}
+                size="md"
+            />
+            <VStack variant='filled' flex={1}>
+                {medications && medications.length > 0 ?
+                    <>
+                        <ScrollView >
+                            {medications
+                                .filter((medication: any) => medication.active)
+                                .map((medication: any) => (
+                                    <MedicationListItem
+                                        key={medication.id}
+                                        medication={medication}
+                                    />
+                                ))}
+                        </ScrollView>
+                    </> : <>
+                        <Box
+                            justifyContent='center'
+                            alignItems='center'
+                            _text={{ color: 'neutral.300' }}
+                            flex={1}
+                        >
+                            {/* <ActivityIndicator
+                                color='#AC0C29'
+                                size={40}
+                            /> */}
+                            Nada por aqui
+                        </Box>
+                    </>}
+            </VStack>
+        </Page>
     )
 }

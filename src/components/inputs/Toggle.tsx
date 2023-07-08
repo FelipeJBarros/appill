@@ -7,7 +7,7 @@ let activeProps = {
 }
 
 let inactiveProps = {
-    btn: { bg: 'neutral.100', _pressed: { bg: 'neutral.200' } },
+    btn: { bg: 'neutral.200', _pressed: { bg: 'neutral.200' } },
     text: { color: 'neutral.300' }
 }
 
@@ -42,6 +42,7 @@ export function Toggle(props: ToggleProps) {
                 leftIcon={props.firstIcon}
                 _icon={{...firstOptionProps.text}}
                 {...firstOptionProps.btn}
+                
             >
                 <Heading size={props.size} {...firstOptionProps.text}>
                     {props.firstOptionLabel}

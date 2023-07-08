@@ -4,9 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import RegisterMedicationScreen from '../screens/registerMedication';
 import LoginScreen from '../screens/login';
-import LoginToken from '../screens/loginToken';
+import LoginTokenScreen from '../screens/loginToken';
 import RegisterScreen from '../screens/register';
 import AlarmScreen from '../screens/alarm';
+import SettingsScreen from '../screens/settings';
 
 import { RootStackParamList } from '../types';
 
@@ -19,7 +20,7 @@ export default function StackRoutes() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
                 name='loginToken'
-                component={LoginToken}
+                component={LoginTokenScreen}
             />
             <Stack.Screen
                 name='login'
@@ -36,6 +37,18 @@ export default function StackRoutes() {
             <Stack.Screen
                 name='alarm'
                 component={AlarmScreen}
+            />
+            <Stack.Screen
+                name='settings'
+                component={SettingsScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Configurações',
+                    headerStyle: {
+                        backgroundColor: '#AC0C29'
+                    },
+                    headerTintColor: '#F2F2F2'
+                }}
             />
             <Stack.Screen
                 name='register-medication'
