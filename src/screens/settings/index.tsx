@@ -8,11 +8,11 @@ const moonIcon = <Icon as={Ionicons} name='moon' size='sm' />
 const notificationOnIcon = <Icon as={Ionicons} name='notifications' size='sm' />
 const notificationOffIcon = <Icon as={Ionicons} name='notifications-off' size='sm' />
 
-import { Context as AuthContext } from '../../context/authContext';
+import AuthContext from '../../context/authContext';
 
 export default function Settings({ navigation }) {
     const { navigate, reset } = navigation;
-    const { handleLogout } = useContext(AuthContext)
+    const { signOut } = useContext(AuthContext)
     const [themeStatus, setThemeStatus] = useState(true);
     const [notificationStatus, setNotificationStatus] = useState(true);
 
@@ -54,8 +54,8 @@ export default function Settings({ navigation }) {
                 _pressed={{
                     bg: 'brand.100'
                 }}
-                onPress={() => {
-                    handleLogout()
+                onPress={async () => {
+                    await signOut()
                     reset({
                         index: 0,
                         routes: [{ name: 'login' }]

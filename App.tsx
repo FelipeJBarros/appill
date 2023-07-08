@@ -5,7 +5,7 @@ import StackRoutes from './src/routes/StackRoutes';
 
 import appillTheme from './src/theme';
 
-import { Provider as AuthProvider } from './src/context/authContext';
+import { AuthProvider } from './src/context/authContext';
 import { Provider as MedicationProvider } from './src/context/medicationContext';
 
 export default function App() {

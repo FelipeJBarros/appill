@@ -4,28 +4,21 @@ import { Box } from "native-base";
 import api from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
-
-import { Context as AuthContext } from '../../context/authContext';
-
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
 type LoginTokenScreenProps = NativeStackScreenProps<RootStackParamList, 'loginToken'>
 
 export default function LoginToken({ navigation }: LoginTokenScreenProps) {
 
-    const { navigate, reset } = navigation;
-    const { setUser } = useContext(AuthContext);
+    const { reset } = navigation;
 
     useEffect(() => {
         const loginWithToken = async () => {
-            let token = await AsyncStorage.getItem('@Auth_token')
+            let token = await AsyncStorage.getItem('@AppillAuth_token')
             if (token) {
                 try {
                     api.defaults.headers["Authorization"] = `Bearer ${token}`
                     const response = await api.get('/auth/me');
-                    console.log("login com sucesso - via token")
-                    console.log(JSON.stringify(response, null, 2))
-                    setUser(response.data)
                     reset({
                         index: 0,
                         routes: [{ name: 'tab-screens'}]
@@ -38,8 +31,6 @@ export default function LoginToken({ navigation }: LoginTokenScreenProps) {
                     })
                 }
             } else {
-                console.log('não existe token para loginToken')
-                
                 reset({
                     index: 0,
                     routes: [{ name: 'login'}]
