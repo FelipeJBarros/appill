@@ -20,7 +20,12 @@ export const RegisterValidation = Yup.object().shape({
         .string(),
     password: Yup
         .string()
-        .required('É preciso informar a senha'),
+        .required('É preciso informar a senha')
+        .min(8, 'A senha deve ter no múnimo 8 caracteres')
+        .matches(
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+            'A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial'
+        ),
     password2: Yup
         .string()
         .oneOf(

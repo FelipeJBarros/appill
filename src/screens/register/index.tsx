@@ -12,11 +12,11 @@ import { Formik } from "formik";
 import { initialValues, RegisterValidation } from "../../formsData/RegisterFormData";
 import { Password } from "../../components/inputs";
 
-// import { Context as AuthContext } from "../../context/authContext";
+import AuthContext from "../../context/authContext";
 
 export default function Register({ navigation }: RegisterScreenProps) {
     const { navigate } = navigation
-    // const { handleUserCreation } = useContext(AuthContext);
+    const { signUp } = useContext(AuthContext);
     return (
         <AuthPage>
             <Box
@@ -76,14 +76,9 @@ export default function Register({ navigation }: RegisterScreenProps) {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={RegisterValidation}
-                    onSubmit={(values, actions) => {
+                    onSubmit={async (values, actions) => {
                         let { name, email, phoneNumber, password } = values
-                        // handleUserCreation(
-                        //     name,
-                        //     email,
-                        //     phoneNumber,
-                        //     password
-                        // )
+                        await signUp()
                         actions.resetForm();
                         navigate('login', {});
                     }}

@@ -6,10 +6,11 @@ import api from "../api";
 
 interface AuthContextData {
     authenticated: boolean;
-    user: Object | null;
+    user: any;
     isFeatching: boolean;
     signIn(email: string, password: string): Promise<{error: boolean, errorMessage?: string}>;
     signOut(): void;
+    signUp(): void;
 }
 
 interface AuthProviderProps {
@@ -32,11 +33,6 @@ export function AuthProvider({children}: AuthProviderProps) {
                 setUser(JSON.parse(storageUser));
                 api.defaults.headers["Authorization"] = `Bearer ${storageToken}`
             }
-
-            console.log({
-                user: storageUser,
-                token: storageToken
-            }, null, 2)
         }
         getStorageData();
     }, [])
@@ -67,7 +63,6 @@ export function AuthProvider({children}: AuthProviderProps) {
             return { error: false }
 
         } catch(error: any) {
-            console.log(JSON.stringify(error.response.data, null, 2))
             return { error: true, errorMessage: error.response.data.message}
         } finally {
             setFeatching(false);
@@ -79,6 +74,14 @@ export function AuthProvider({children}: AuthProviderProps) {
         await AsyncStorage.clear();
     }
 
+    async function signUp() {
+        try {
+            const response = await api.post('/auth/register', {})
+        } catch (error: any) {
+            console.log(JSON.stringify(error.response.data, null, 2))
+        }
+    }
+
     return(
         <AuthContext.Provider
             value={{
@@ -86,7 +89,8 @@ export function AuthProvider({children}: AuthProviderProps) {
                 user,
                 isFeatching,
                 signIn,
-                signOut
+                signOut,
+                signUp
             }}
         >
             {children}

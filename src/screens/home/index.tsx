@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 
 import { Page } from "../../components/layout";
-import { Box, HStack, Icon, IconButton, Modal, ScrollView, Text, VStack, Image} from "native-base";
+import { HStack, Icon, IconButton, Modal, ScrollView, Text, VStack, Image} from "native-base";
 import Calendar from "../../components/DisplayData/Calendar";
 import { ListItem } from "../../components/DisplayData/ListItem";
 
@@ -9,7 +9,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'home'>
 
-import { Context as AuthContext } from "../../context/authContext";
+import AuthContext from "../../context/authContext";
 
 import { Ionicons } from '@expo/vector-icons';
 const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color="white" />
@@ -17,7 +17,7 @@ const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color
 
 export default function Home({ navigation }: HomeScreenProps) {
     const { navigate } = navigation;
-    const { state } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     return (
         <>
             <Page spacing={12}>
@@ -27,7 +27,7 @@ export default function Home({ navigation }: HomeScreenProps) {
                             Seja bem vindo(a),
                         </Text>
                         <Text color='paper' fontSize='xl' lineHeight='xs' bold>
-                            {state?.user?.name}
+                            {user?.name}
                         </Text>
                     </VStack>
                     <IconButton
