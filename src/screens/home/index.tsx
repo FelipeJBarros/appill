@@ -32,7 +32,7 @@ export default function Home({ navigation }: HomeScreenProps) {
                     </VStack>
                     <IconButton
                         icon={OptionsIcon}
-                        onPress={() => navigate('settings', {})}
+                        onPress={() => navigate('alarm', {})}
                     />
                 </HStack>
                 <Calendar />

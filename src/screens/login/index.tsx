@@ -53,7 +53,7 @@ export default function Login({ navigation }: LoginScreenProps) {
                             Bem-vindo(a) de volta
                         </Heading>
                         <Text lineHeight='xs' color='neutral.600'>
-                            Faça o login par acessar a aplicação
+                            Faça o login para acessar a aplicação
                         </Text>
                     </Box>
                     <Formik
