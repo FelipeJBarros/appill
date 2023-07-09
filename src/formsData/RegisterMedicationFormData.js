@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 export const initialValues = {
     name: '',
     unitType: 'PILL',
-    doses: [],
+    doses: [
+        {time: new Date(), quantity: '1'}
+    ],
     frequency: "ALL",
     until: new Date(),
     stock: ''

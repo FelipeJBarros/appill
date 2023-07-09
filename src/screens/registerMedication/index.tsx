@@ -1,15 +1,15 @@
 import React, { useState, useContext } from "react";
-import { Box, Button, Icon, Input, Text, VStack, ScrollView, HStack, Select, Heading } from "native-base";
+import { Box, Button, Icon, Input, Text, VStack, ScrollView, HStack, Select, Heading, InputGroup, InputRightAddon } from "native-base";
 import { KeyboardAvoidingView } from "react-native";
 
-import { LabeledSelect, CalendarInput } from "../../components/inputs";
+import { LabeledSelect, CalendarInput, DoseInput } from "../../components/inputs";
 
-import { MaterialCommunityIcons, FontAwesome5, Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5, Entypo, Fontisto } from '@expo/vector-icons';
 const boardIcon = <Icon as={FontAwesome5} name='clipboard' color='brand.800' size={6} ml={2} />
-const calendarIcon = <Icon as={FontAwesome5} name='calendar' color='brand.800' size={6} ml={2} />
 const timeCalendarIcon = <Icon as={MaterialCommunityIcons} name='calendar-clock' color='brand.800' size={6} ml={2} />
 const pillIcon = <Icon as={MaterialCommunityIcons} name='pill' color='brand.800' size={6} ml={2} />
-const stockIcon = <Icon as={FontAwesome5} name='briefcase-medical' color='brand.800' size={5} ml={3} />
+const stockIcon = <Icon as={FontAwesome5} name='briefcase-medical' color='brand.800' size={5} ml={2.5} />
+const doseIcon = <Icon as={Fontisto} name='drug-pack' color='brand.800' size={5} ml={2.5} />
 const dropDownIcon = <Icon as={Entypo} name='chevron-down' size={6} />
 
 import { initialValues, registerMedicationValidation } from "../../formsData/RegisterMedicationFormData";
@@ -26,7 +26,7 @@ export default function RegisterMedication() {
                 initialValues={initialValues}
                 // validationSchema={registerMedicationValidation}
                 onSubmit={(values, actions) => {
-                    console.log(values)
+                    console.log(JSON.stringify(values, null, 2))
                 }}
             >
                 {({
@@ -55,7 +55,6 @@ export default function RegisterMedication() {
                                     <Select
                                         selectedValue={values.unitType}
                                         onValueChange={handleChange('unitType')}
-                                        onClose={handleBlur('unitType')}
                                         dropdownIcon={dropDownIcon}
                                     >
                                         <Select.Item label="pílula" value="PILL" />
@@ -64,32 +63,47 @@ export default function RegisterMedication() {
                                 </LabeledSelect>
                                 <FieldArray
                                     name="doses"
-                                    render={({insert, remove}) => (
-                                        <Box>
-                                            <Button
-                                                onPress={() => insert(values.doses.length + 1, { time: '', quantity: '0' })}
-                                            >
-                                                Add
-                                            </Button>
+                                    render={({ insert, remove }: any) => (
+                                        <DoseInput.Container>
+                                            <DoseInput.Header
+                                                icon={doseIcon}
+                                                label='Doses'
+                                                onAddPress={
+                                                    () => insert(values.doses.length + 1, { time: new Date(), quantity: '1' })
+                                                }
+                                            />
                                             {values.doses.map((dose, index) => (
-                                                <Box flexDirection='row'>
-                                                    <Input
-                                                        flex={1}
-                                                        value={dose?.quantity}
-                                                        onChangeText={handleChange(`doses.${index}.quantity`)}
+                                                <DoseInput.Inputs key={index}>
+                                                    <CalendarInput
+                                                        value={values.doses[index].time}
+                                                        onChange={
+                                                            (value: any) => setFieldValue(`doses.${index}.time`, value)
+                                                        }
+                                                        calendarProps={{
+                                                            mode: "time",
+                                                        }}
+                                                        inputProps={{
+                                                            leftElement: timeCalendarIcon,
+                                                            placeholder: "Horário",
+                                                        }}
                                                     />
-                                                    <Input
-                                                        flex={1}
-                                                        value={dose?.time}
-                                                    />
-                                                    <Button
+                                                    <DoseInput.AddonInputWrapper value={values.unitType}>
+                                                        <Input
+                                                            value={values.doses[index].quantity}
+                                                            placeholder='1'
+                                                            keyboardType="decimal-pad"
+                                                            onChangeText={(value) => setFieldValue(`doses.${index}.quantity`, value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, ''))}
+                                                            onBlur={handleBlur(`doses.${index}.quantity`)}
+                                                            borderWidth={0}
+                                                            flex={1}
+                                                        />
+                                                    </DoseInput.AddonInputWrapper>
+                                                    <DoseInput.RemoveButton
                                                         onPress={() => remove(index)}
-                                                    >
-                                                        -
-                                                    </Button>
-                                                </Box>
+                                                    />
+                                                </DoseInput.Inputs>
                                             ))}
-                                        </Box>
+                                        </DoseInput.Container>
                                     )}
                                 />
                                 <LabeledSelect label="Estoque" icon={stockIcon}>
@@ -108,13 +122,21 @@ export default function RegisterMedication() {
                                     <CalendarInput
                                         value={values.until}
                                         onChange={(value: string) => setFieldValue('until', value)}
+                                        calendarProps={{
+                                            mode: "date",
+                                            display: "calendar"
+                                        }}
+                                        inputProps={{
+                                            placeholder: new Date().toLocaleDateString('pt-BR'),
+                                            borderWidth: 0,
+                                            textAlign: 'right'
+                                        }}
                                     />
                                 </LabeledSelect>
                                 <LabeledSelect label="Frequência" icon={timeCalendarIcon}>
                                     <Select
                                         selectedValue={values.frequency}
                                         onValueChange={handleChange('frequency')}
-                                        onClose={handleBlur('frequency')}
                                         dropdownIcon={dropDownIcon}
                                     >
                                         <Select.Item label="Todos os dias" value="ALL" />

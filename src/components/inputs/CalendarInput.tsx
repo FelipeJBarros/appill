@@ -3,7 +3,14 @@ import { Input } from "native-base";
 import { Pressable, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-export function CalendarInput({ value, onChange }: any) {
+interface CalendarInputProps {
+    value: any;
+    onChange: (value: any) => void;
+    inputProps: Object;
+    calendarProps: Object;
+}
+
+export function CalendarInput({ value, onChange, inputProps, calendarProps }: CalendarInputProps) {
     const [isVisible, setVisibility] = useState(false);
     const [displayValue, setDisplayValue] = useState('')
 
@@ -11,16 +18,14 @@ export function CalendarInput({ value, onChange }: any) {
         setVisibility(!isVisible);
     }
 
-    const onChangeDate = ({type}: any, newDate: string) => {
+    const onChangeDate = ({ type }: any, newDate: any) => {
         setVisibility(false);
-        if(type === 'set') {
+        if (type === 'set') {
             onChange(newDate)
-            if(Platform.OS === 'android') {
-                setVisibility(false);
-                setDisplayValue(new Date(newDate).toLocaleDateString('pt-BR'))
-            }
-        } else {
-            toogleCalendarVisibility();
+            let formatDisplayData = calendarProps?.mode === 'time' ?
+                newDate.toLocaleTimeString('pt-BR').slice(0, -3) :
+                newDate.toLocaleDateString('pt-BR')
+            setDisplayValue(formatDisplayData)
         }
     }
 
@@ -28,21 +33,18 @@ export function CalendarInput({ value, onChange }: any) {
         <>
             {isVisible && (
                 <DateTimePicker
-                    mode="date"
-                    display="calendar"
+                    {...calendarProps}
                     value={value}
                     minimumDate={new Date()}
                     onChange={onChangeDate}
                 />
             )}
-            <Pressable onPress={toogleCalendarVisibility} style={{ flex: 1}}>
+            <Pressable onPress={toogleCalendarVisibility} style={{ flex: 1 }}>
                 <Input
                     value={displayValue}
-                    placeholder={new Date().toLocaleDateString('pt-BR')}
-                    borderWidth={0}
                     flex={1}
-                    textAlign='right'
                     editable={false}
+                    {...inputProps}
                 />
             </Pressable>
         </>
