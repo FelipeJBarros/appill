@@ -4,7 +4,6 @@ import { Page } from "../../components/layout";
 import { HStack, Icon, IconButton, Modal, ScrollView, Text, VStack, Image} from "native-base";
 import Calendar from "../../components/DisplayData/Calendar";
 import { ListItem } from "../../components/DisplayData/ListItem";
-
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'home'>
@@ -18,6 +17,7 @@ const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color
 export default function Home({ navigation }: HomeScreenProps) {
     const { navigate } = navigation;
     const { user } = useContext(AuthContext);
+
     return (
         <>
             <Page spacing={12}>

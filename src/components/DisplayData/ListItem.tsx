@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {  StyleSheet, Text, View } from "react-native"
 import { IconButton } from "native-base";
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -8,6 +8,13 @@ interface ListItemProps {
     time: string
 }
 export function ListItem({status, dosage, time}: ListItemProps){
+    const [modalVisible, setModalVisible] = useState(false);
+    const openModal = () => {
+      setModalVisible(true);
+    };
+    const closeModal = () => {
+      setModalVisible(false);
+    };
     return(
         <View>
             <View style={styles.timeAndCicleContainer}>
@@ -16,7 +23,7 @@ export function ListItem({status, dosage, time}: ListItemProps){
                 </View>
             <View style={styles.medicationContainer}>
                 <View style={{marginLeft: 9}}>
-                    <Text style={styles.medicationName}>Dorflex</Text>
+                    <Text style={styles.medicationName}>cachaça</Text>
                     <View style={{flexDirection: 'row'}}>
                         <View>
                             <Text style={styles.medicationDogase}>{dosage}</Text>
@@ -33,7 +40,9 @@ export function ListItem({status, dosage, time}: ListItemProps){
                 _icon={{
                 as: FontAwesome5,
                  name: "pen"
-                 }} />
+                 }}
+                 onPress={openModal}
+                 />
                 </View>
         </View>
     )
