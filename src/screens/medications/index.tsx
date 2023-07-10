@@ -32,23 +32,23 @@ export default function Medications({ navigation }: MedicationScreenProps) {
     const [toogleStatus, setToogleStatus] = useState(true);
     const [searchFor, setSearchFor] = useState('');
 
-    const { medications, isFeatching, getMedications, deleteMedication } = useContext(MedicationContext);
+    const { medications, isFeatching, getMedications, deleteMedication, toggleMedicationStatus } = useContext(MedicationContext);
 
     useEffect(() => {
         const getUserMedications = async () => {
-            await getMedications();
+            await getMedications({ name: searchFor, isActive: toogleStatus });
         }
         getUserMedications();
-    }, [])
+    }, [toogleStatus])
 
     async function onFilterSubmit() {
-        await getMedications({ name: searchFor });
+        await getMedications({ name: searchFor, isActive: toogleStatus });
     }
 
     async function cleanFilter() {
         if(searchFor != '') {
             setSearchFor('');
-            await getMedications({})
+            await getMedications({ isActive: toogleStatus })
         }
     }
 
@@ -100,18 +100,25 @@ export default function Medications({ navigation }: MedicationScreenProps) {
                         />
                     </Box>
                 ) : (
-                    medications && medications.length > 0 && (
+                    medications && medications.length > 0 ? (
                         <ScrollView >
                             {medications
-                                .filter((medication: any) => medication.active)
                                 .map((medication: any) => (
                                     <MedicationListItem
                                         key={medication.id}
                                         medication={medication}
                                         onDelete={deleteMedication}
+                                        onPause={toggleMedicationStatus}
                                     />
                                 ))}
                         </ScrollView>
+                    ) : (
+                        <Box
+                            flex={1} justifyContent='center' alignItems='center'
+                            _text={{ color: 'neutral.300' }}
+                        >
+                            Nada por aqui
+                        </Box>
                     )
                 )}
             </VStack>

@@ -7,8 +7,9 @@ interface MedicationContextData {
     medications: Array<Object>;
     isFeatching: boolean;
     getMedications(params?: Object | null): Promise<{ error: boolean, errorMessage?: string }>;
-    registerMedication(values: Object): Promise<{ error: boolean, errorMessage?: string }>
-    deleteMedication(medicationId: string): Promise<{ error: boolean, errorMessage?: string }>
+    registerMedication(values: Object): Promise<{ error: boolean, errorMessage?: string }>;
+    deleteMedication(medicationId: string): Promise<{ error: boolean, errorMessage?: string }>;
+    toggleMedicationStatus(id: string, state:boolean): Promise<{ error: boolean, errorMessage?: string }>;
 }
 
 interface MedicationProviderProps {
@@ -65,7 +66,7 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
     async function deleteMedication(medicationId: string) {
         setFeatching(true);
         try {
-            const response = await api.delete('/medication', { params: { id: medicationId }})
+            const response = await api.delete('/medication', { params: { id: medicationId } })
             console.log(JSON.stringify(response.data, null, 2))
             return { error: false }
         } catch (error: any) {
@@ -79,6 +80,23 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
         }
     }
 
+    async function toggleMedicationStatus(id: string, newState: boolean) {
+        setFeatching(true);
+        try {
+            await api.patch('/medication', { active: newState }, { params: { id } })
+            return { error: false }
+        } catch (error: any) {
+            if (error.response.data.statusCode === 500) {
+                return { error: true, errorMessage: "Erro inesperado, tento novamente mais tarde" }
+            }
+            return { error: true, errorMessage: error.response.data.message }
+        } finally {
+            setFeatching(false);
+            let params = { name: '', isActive: !newState }
+            getMedications(params);
+        }
+    }
+
     return (
         <MedicationContext.Provider
             value={{
@@ -86,7 +104,8 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
                 isFeatching,
                 getMedications,
                 registerMedication,
-                deleteMedication
+                deleteMedication,
+                toggleMedicationStatus
             }}
         >
             {children}
