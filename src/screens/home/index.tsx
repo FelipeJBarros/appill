@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { Page } from "../../components/layout";
-import { HStack, Icon, IconButton, Modal, ScrollView, Text, VStack, Image} from "native-base";
+import { HStack, Icon, IconButton, Modal, ScrollView, Text, VStack, Image, Box } from "native-base";
 import Calendar from "../../components/DisplayData/Calendar";
 import { ListItem } from "../../components/DisplayData/ListItem";
 
@@ -10,6 +10,7 @@ import { RootStackParamList } from "../../types";
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'home'>
 
 import AuthContext from "../../context/authContext";
+import DoseContext from "../../context/doseContext";
 
 import { Ionicons } from '@expo/vector-icons';
 const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color="white" />
@@ -18,6 +19,16 @@ const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color
 export default function Home({ navigation }: HomeScreenProps) {
     const { navigate } = navigation;
     const { user } = useContext(AuthContext);
+    const { currentDayDoses, getCurrentDoses } = useContext(DoseContext);
+
+    useEffect(() => {
+        async function getDailyDoses() {
+            await getCurrentDoses(new Date().toISOString())
+        }
+
+        getDailyDoses();
+    }, [])
+
     return (
         <>
             <Page spacing={12}>
@@ -39,25 +50,38 @@ export default function Home({ navigation }: HomeScreenProps) {
                 <HStack
                     justifyContent='center' alignItems='center'
                     backgroundColor='brand.900'
-                    borderRadius={10} p={4} space={8}
+                    borderRadius={10} p={4} space={2}
                 >
-                    <Image
-                        source={require('../../../assets/images/pill-icon.png')}
-                        alt={"progress-indicator"}
-                    />
                     <VStack justifyContent='center' alignItems='center' >
                         <Text color='paper' fontSize={'lg'} bold>
-                            Quarta-feira, 07 de junho
+                            Acompanhe suas medicações
                         </Text>
                         <Text color='paper' fontSize={'md'}>
-                            <Text bold>01/03</Text> medicações realizadas
+                            Te ajudamos a não perder nenhuma delas
                         </Text>
                     </VStack>
                 </HStack>
                 <VStack variant='filled' flex={1}>
-                    <ScrollView>
-                        <ListItem dosage="50 ml" status="feito" time="10 PM" />
-                    </ScrollView>
+                    {currentDayDoses && currentDayDoses.length > 0 ? (
+                        <ScrollView>
+                            {currentDayDoses.map(dose => (
+                                <ListItem
+                                    name={dose.medication.name}
+                                    taken={dose.taken}
+                                    time={dose.time}
+                                    dose={dose.quantity}
+                                    unit={dose.medication.unitType}
+                                />
+                            ))}
+                        </ScrollView>
+                    ) : (
+                        <Box
+                            flex={1} justifyContent='center' alignItems='center'
+                            _text={{ color: 'neutral.300' }}
+                        >
+                            Nenhuma medicação pra hoje
+                        </Box>
+                    )}
                 </VStack>
             </Page>
         </>

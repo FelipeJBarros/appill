@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useContext } from "react";
 import CalendarStrip from 'react-native-calendar-strip';
 import 'moment/locale/br';
 import { Box, HStack, Image, Text, VStack } from 'native-base'
@@ -7,7 +7,10 @@ interface CalendarProps {
   caledar: string
 }
 
+import DoseContext from "../../context/doseContext";
+
 export default function Calendar() {
+  const { getCurrentDoses } = useContext(DoseContext)
   const pillIcon = '../../../assets/images/pill-icon.png'
   const locale = {
     name: 'br-br',
@@ -72,6 +75,8 @@ export default function Calendar() {
         dateNameStyle={{ color: '#F98B9D' }}
         iconContainer={{ flex: 0.00000001 }}
         dayComponentHeight={80}
+        selectedDate={new Date()}
+        onDateSelected={(date) => getCurrentDoses(date.toISOString())}
       />
     </VStack>
   );
