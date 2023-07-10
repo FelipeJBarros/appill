@@ -23,7 +23,7 @@ export function MedicationListItem({ medication, onDelete, onPause }: any) {
             <VStack borderColor='neutral.100' borderWidth={1} borderRadius={10} m={1}>
                 <Box p={2}>
                     <Heading>{medication.name}</Heading>
-                    {medication.doses.map((dose: any) => (
+                    {medication.directives.map((dose: any) => (
                         <HStack key={dose.id} divider={<Text>•</Text>} space={2}>
                             <Text color={'neutral.500'}>
                                 {translate(medication.frequency)}
