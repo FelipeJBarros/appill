@@ -7,6 +7,7 @@ import appillTheme from './src/theme';
 
 import { AuthProvider } from './src/context/authContext';
 import { MedicationProvider } from './src/context/medicationContext';
+import { DoseProvider } from './src/context/doseContext';
 
 export default function App() {
   return (
@@ -14,8 +15,10 @@ export default function App() {
       <NavigationContainer>
         <AuthProvider>
           <MedicationProvider>
+            <DoseProvider>
             <StatusBar backgroundColor='#AC0C29' />
             <StackRoutes />
+            </DoseProvider>
           </MedicationProvider>
         </AuthProvider>
       </NavigationContainer>

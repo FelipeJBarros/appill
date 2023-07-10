@@ -27,6 +27,7 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
         try {
             const response = await api.get('/medication', { params });
             setMedications(response.data);
+            console.log('medicações', response.data)
             return { error: false }
         } catch (error: any) {
             if (error.response.data.statusCode === 500) {
