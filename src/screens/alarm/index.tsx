@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Text, Box, Heading, Divider, HStack, VStack, ScrollView, Button } from "native-base";
 import { AuthPage } from "../../components/layout";
-
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../types";
+import DoseContext from "../../context/doseContext";
+type AlarmScreenProps = NativeStackScreenProps<RootStackParamList, 'alarm'>
 export default function Alarm() {
+    const {dose, getDose} = useContext(DoseContext)
+    useEffect(()=>{
+        getDose("56d7633f-1bf7-4f7a-979a-6c54a0c35e09")
+    }, [])
     return (
         <AuthPage>
             <Box px={6} flex={1}>
@@ -14,7 +21,7 @@ export default function Alarm() {
                 </Box>
                 <VStack pt={12} >
                     <Text fontWeight={"light"} color='neutral.50' fontSize='xl'>Está na hora da sua dose de</Text>
-                    <Heading fontWeight={"medium"} color='neutral.50' fontSize='5xl'>
+                    <Heading fontWeight={"medium"} color='neutral.50' fontSize='4xl'>
                        Limão com Mel
                     </Heading>
                     <HStack alignItems={'center'} justifyContent={'center'}>
@@ -46,7 +53,7 @@ export default function Alarm() {
     fontSize: 'xl',
     color: 'brand.800',
     }}>
-    Adiar, não consigo tomar agora
+    Adiar
     </Button>
     </VStack>
             </Box>
