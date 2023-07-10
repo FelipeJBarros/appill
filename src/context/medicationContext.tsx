@@ -6,7 +6,7 @@ import api from "../api";
 interface MedicationContextData {
     medications: Array<Object>;
     isFeatching: boolean;
-    getMedications(): Promise<{ error: boolean, errorMessage?: string }>;
+    getMedications(params?: Object | null): Promise<{ error: boolean, errorMessage?: string }>;
     registerMedication(values: Object): Promise<{ error: boolean, errorMessage?: string }>
     deleteMedication(medicationId: string): Promise<{ error: boolean, errorMessage?: string }>
 }
@@ -21,10 +21,10 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
     const [medications, setMedications] = useState([]);
     const [isFeatching, setFeatching] = useState(false);
 
-    async function getMedications() {
+    async function getMedications(params = null) {
         setFeatching(true);
         try {
-            const response = await api.get('/medication');
+            const response = await api.get('/medication', { params });
             setMedications(response.data);
             return { error: false }
         } catch (error: any) {

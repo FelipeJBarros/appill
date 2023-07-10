@@ -15,9 +15,10 @@ import {
     Box,
 } from "native-base";
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons  } from '@expo/vector-icons';
 const OptionsIcon = <Icon as={Ionicons} name="md-options-outline" size={8} color="white" />
 const SearchIcon = <Icon as={Ionicons} name="search" ml={2} color='neutral.400' size={6} />
+const cleanFilterIcon = <Icon as={MaterialCommunityIcons} name="filter-off" color='brand.400' size={6} />
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../types";
@@ -29,6 +30,7 @@ import { ActivityIndicator } from 'react-native';
 export default function Medications({ navigation }: MedicationScreenProps) {
     const { navigate } = navigation;
     const [toogleStatus, setToogleStatus] = useState(true);
+    const [searchFor, setSearchFor] = useState('');
 
     const { medications, isFeatching, getMedications, deleteMedication } = useContext(MedicationContext);
 
@@ -38,6 +40,17 @@ export default function Medications({ navigation }: MedicationScreenProps) {
         }
         getUserMedications();
     }, [])
+
+    async function onFilterSubmit() {
+        await getMedications({ name: searchFor });
+    }
+
+    async function cleanFilter() {
+        if(searchFor != '') {
+            setSearchFor('');
+            await getMedications({})
+        }
+    }
 
     return (
         <Page spacing={12}>
@@ -50,11 +63,22 @@ export default function Medications({ navigation }: MedicationScreenProps) {
                     onPress={() => navigate('settings', {})}
                 />
             </HStack>
-            <Input
-                placeholder="Pesquise suas medicações"
-                leftElement={SearchIcon}
-                placeholderTextColor='neutral.400'
-            />
+            <HStack justifyContent='space-between' space={2}>
+                <Input
+                    flex={1}
+                    value={searchFor}
+                    onChangeText={setSearchFor}
+                    placeholder="Pesquise suas medicações"
+                    leftElement={SearchIcon}
+                    placeholderTextColor='neutral.400'
+                    onSubmitEditing={onFilterSubmit}
+                />
+                <IconButton
+                    bg='paper'
+                    icon={cleanFilterIcon}
+                    onPress={cleanFilter}
+                />
+            </HStack>
             <Toggle
                 firstOptionLabel="Ativos"
                 lastOptionLabel="Pausados"
