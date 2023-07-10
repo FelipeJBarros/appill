@@ -6,12 +6,10 @@ import moment from 'moment';
 const pauseIcon = <Icon as={MaterialCommunityIcons} name='timer-sand-full' size={6} />
 const deleteIcon = <Icon as={MaterialCommunityIcons} name='trash-can' size={6} />
 
-const translate = {
-    "PILL": 'pílulas',
-    undefined: ''
-}
+import translate from '../../utils/translate';
 
 export function MedicationListItem({ medication }: any) {
+    let multi = medication.stock > 1 && medication.unitType != 'LIQUID'
     return (
         <VStack borderColor='neutral.100' borderWidth={1} borderRadius={10} m={1}>
             <Box p={2}>
@@ -19,18 +17,18 @@ export function MedicationListItem({ medication }: any) {
                 {medication.doses.map((dose:any) => (
                     <HStack key={dose.id} divider={<Text>•</Text>} space={2}>
                         <Text color={'neutral.500'}>
-                            {medication.frequency}
+                            {translate(medication.frequency)}
                         </Text>
                         <Text color={'neutral.500'}>
                             {moment(dose.time).format('LT')}
                         </Text>
                         <Text color={'neutral.500'}>
-                            {`${dose.quantity} ${translate[medication.unitType]}`}
+                            {`${dose.quantity} ${translate(medication.unitType)}${dose.quantity > 1 && medication.unitType != 'LIQUID' ? 's' : ''}`}
                         </Text>
                     </HStack>
                 ))}
                 <Text color={'neutral.500'}>
-                    {`${medication.stock} ${translate[medication.unitType]} em estoque`}
+                    {`${medication.stock} ${translate(medication.unitType)}${multi ? 's' : ''} em estoque`}
                 </Text>
             </Box>
             <HStack bg='brand.50' mt='1.5'>

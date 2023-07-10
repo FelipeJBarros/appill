@@ -18,6 +18,8 @@ import MedicationContext from "../../context/medicationContext";
 import { Formik, FieldArray } from "formik";
 import WarningBar from "../../components/Warning";
 
+import translate from "../../utils/translate";
+
 export default function RegisterMedication({ navigation }: any) {
     const { navigate } = navigation;
     const { isFeatching, registerMedication } = useContext(MedicationContext);
@@ -157,7 +159,7 @@ export default function RegisterMedication({ navigation }: any) {
                                             />
                                             <InputRightAddon borderWidth={0}>
                                                 <Text fontWeight={800} fontSize={16}>
-                                                    {values.unitType}
+                                                    {translate(values.unitType)}
                                                 </Text>
                                             </InputRightAddon>
                                         </InputGroup>
