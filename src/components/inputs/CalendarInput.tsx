@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Input } from "native-base";
-import { Pressable, Platform } from "react-native";
+import { Pressable } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+interface CalendarProps {
+    mode: "date" | 'time';
+    display?: "calendar";
+}
 interface CalendarInputProps {
     value: any;
     onChange: (value: any) => void;
     inputProps: Object;
-    calendarProps: Object;
+    calendarProps: CalendarProps;
 }
 
 export function CalendarInput({ value, onChange, inputProps, calendarProps }: CalendarInputProps) {
@@ -22,7 +26,7 @@ export function CalendarInput({ value, onChange, inputProps, calendarProps }: Ca
         setVisibility(false);
         if (type === 'set') {
             onChange(newDate)
-            let formatDisplayData = calendarProps?.mode === 'time' ?
+            let formatDisplayData = calendarProps.mode === 'time' ?
                 newDate.toLocaleTimeString('pt-BR').slice(0, -3) :
                 newDate.toLocaleDateString('pt-BR')
             setDisplayValue(formatDisplayData)

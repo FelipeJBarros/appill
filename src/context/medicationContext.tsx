@@ -40,7 +40,7 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
         setFeatching(true);
         try {
             console.log('Dando post num novo medicamento...')
-            const response = await api.post('/medication', {});
+            const response = await api.post('/medication', values);
             console.log(response.data, null, 2);
             return { error: false }
         } catch (error: any) {
@@ -57,6 +57,7 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
             return { error: true, errorMessage: error.response.data.message }
         } finally {
             setFeatching(false);
+            getMedications();
         }
     }
 

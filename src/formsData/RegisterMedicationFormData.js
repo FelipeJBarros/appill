@@ -4,34 +4,16 @@ export const initialValues = {
     name: '',
     unitType: 'PILL',
     doses: [
-        {time: new Date(), quantity: '1'}
+        {time: new Date(), quantity: 1}
     ],
-    frequency: "ALL",
+    frequency: "ALL_DAYS",
     until: new Date(),
-    stock: ''
+    stock: 0,
+    observation: ''
 }
 
 export const registerMedicationValidation = Yup.object().shape({
     name: Yup
         .string()
         .required('É preciso informar um nome'),
-    unitType: Yup
-        .string()
-        .oneOf(
-            ['PILL', 'LIQUID'],
-            "Valor inválido"
-        )
-        .required('É preciso informar a unidade'),
-    doses: Yup
-        .array()
-        .min(1, "É preciso informar pelo menos uma dose"),
-    frequency: Yup
-        .string()
-        .required('É preciso informar a frequência'),
-    until: Yup
-        .date()
-        .required('Informe até quando dura o tratamento'),
-    stock: Yup
-        .string()
-        .required('É preciso informar o stock')
 });
