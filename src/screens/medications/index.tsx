@@ -30,7 +30,7 @@ export default function Medications({ navigation }: MedicationScreenProps) {
     const { navigate } = navigation;
     const [toogleStatus, setToogleStatus] = useState(true);
 
-    const { medications, isFeatching, getMedications } = useContext(MedicationContext);
+    const { medications, isFeatching, getMedications, deleteMedication } = useContext(MedicationContext);
 
     useEffect(() => {
         const getUserMedications = async () => {
@@ -84,6 +84,7 @@ export default function Medications({ navigation }: MedicationScreenProps) {
                                     <MedicationListItem
                                         key={medication.id}
                                         medication={medication}
+                                        onDelete={deleteMedication}
                                     />
                                 ))}
                         </ScrollView>

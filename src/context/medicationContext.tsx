@@ -8,6 +8,7 @@ interface MedicationContextData {
     isFeatching: boolean;
     getMedications(): Promise<{ error: boolean, errorMessage?: string }>;
     registerMedication(values: Object): Promise<{ error: boolean, errorMessage?: string }>
+    deleteMedication(medicationId: string): Promise<{ error: boolean, errorMessage?: string }>
 }
 
 interface MedicationProviderProps {
@@ -27,7 +28,7 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
             setMedications(response.data);
             return { error: false }
         } catch (error: any) {
-            if(error.response.data.statusCode === 500) {
+            if (error.response.data.statusCode === 500) {
                 return { error: true, errorMessage: "Erro inesperado, tento novamente mais tarde" }
             }
             return { error: true, errorMessage: error.response.data.message }
@@ -51,7 +52,24 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
                 2
             ))
 
-            if(error.response.data.statusCode === 500) {
+            if (error.response.data.statusCode === 500) {
+                return { error: true, errorMessage: "Erro inesperado, tento novamente mais tarde" }
+            }
+            return { error: true, errorMessage: error.response.data.message }
+        } finally {
+            setFeatching(false);
+            getMedications();
+        }
+    }
+
+    async function deleteMedication(medicationId: string) {
+        setFeatching(true);
+        try {
+            const response = await api.delete('/medication', { params: { id: medicationId }})
+            console.log(JSON.stringify(response.data, null, 2))
+            return { error: false }
+        } catch (error: any) {
+            if (error.response.data.statusCode === 500) {
                 return { error: true, errorMessage: "Erro inesperado, tento novamente mais tarde" }
             }
             return { error: true, errorMessage: error.response.data.message }
@@ -67,7 +85,8 @@ export function MedicationProvider({ children }: MedicationProviderProps) {
                 medications,
                 isFeatching,
                 getMedications,
-                registerMedication
+                registerMedication,
+                deleteMedication
             }}
         >
             {children}
