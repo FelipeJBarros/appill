@@ -8,7 +8,7 @@ const deleteIcon = <Icon as={MaterialCommunityIcons} name='trash-can' size={6} /
 
 import translate from '../../utils/translate';
 
-export function MedicationListItem({ medication, onDelete }: any) {
+export function MedicationListItem({ medication, onDelete, onPause }: any) {
     let multi = medication.stock > 1 && medication.unitType != 'LIQUID'
     const [warningModalIsOpen, setWarningModalOpen] = useState(false);
     const [currentMedication, setCurrentMedication] = useState({});
@@ -45,11 +45,13 @@ export function MedicationListItem({ medication, onDelete }: any) {
                         flex={1} variant='unstyled'
                         size='xs'
                         leftIcon={pauseIcon}
-                        onPress={() => console.log('Pausei')}
+                        onPress={async () => {
+                            await onPause(medication.id, !medication.active)
+                        }}
                     >
                         <Text color={'neutral.500'} fontSize={18} fontWeight={700}>
-                            Pausar
-                        </Text>
+                            {medication.active ? "Pausar" : "Retomar"}
+                        </Text>  
                     </Button>
                     <Button
                         flex={1} variant='unstyled'
