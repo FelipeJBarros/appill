@@ -109,5 +109,4 @@ export function DoseProvider({ children }: DoseProviderProps) {
   )
 }
 
-
 export default DoseContext

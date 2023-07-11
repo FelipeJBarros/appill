@@ -11,6 +11,9 @@ interface ListItemProps {
     unit: string,
 }
 export function ListItem({ name, taken, time, dose, unit }: ListItemProps) {
+    let date = new Date(time)
+    let timeString = date.toLocaleTimeString().split(' ');
+    let formatTimeString = `${timeString[0].slice(0,-3)} ${timeString[1]}`
     return (
         <Box py={1}>
             <HStack alignItems='center' space={2}>
@@ -19,7 +22,7 @@ export function ListItem({ name, taken, time, dose, unit }: ListItemProps) {
                     width={4} height={4} borderRadius='full'
                 />
                 <Text color='neutral.400'>
-                    {new Date(time).toLocaleTimeString().slice(0, -6)}
+                    {formatTimeString}
                 </Text>
             </HStack>
             <View style={styles.medicationContainer}>
