@@ -88,7 +88,13 @@ export default function Register({ navigation }: RegisterScreenProps) {
                         initialValues={initialValues}
                         validationSchema={RegisterValidation}
                         onSubmit={async (values, actions) => {
-                            const response = await signUp(values)
+                            let data = {
+                                email: values.email,
+                                name: values.name,
+                                password: values.password,
+                                phoneNumber: values.phoneNumber
+                            }
+                            const response = await signUp(data)
                             if (response.error) {
                                 setLoginErrorStatus(true);
                                 setLoginErrorMessage(response.errorMessage || '')
