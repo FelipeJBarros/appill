@@ -53,7 +53,7 @@ export function DoseProvider({ children }: DoseProviderProps) {
       console.log("Doses do dia", JSON.stringify(response.data, null, 2))
       setCurrentDayDoses(response.data)
       response.data.forEach((dose: any) =>{
-        schedulePushNotification(dose.medication.name, "nao esqueça de tomar sua medicação", dose.id, "2023-07-11T06:26:47.319Z")
+        schedulePushNotification(dose.medication.name, "nao esqueça de tomar sua medicação", dose.id, dose.time.toString())
       })
       return { error: false }
     } catch (error: any) {
