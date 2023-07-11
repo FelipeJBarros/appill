@@ -39,6 +39,9 @@ export function MedicationListItem({ medication, onDelete, onPause }: any) {
                     <Text color={'neutral.500'}>
                         {`${medication.stock} ${translate(medication.unitType)}${multi ? 's' : ''} em estoque`}
                     </Text>
+                    <Text color={'neutral.500'}>
+                        {`Fim do tratemento: ${new Date(medication.until).toLocaleDateString('pt-BR')}`}
+                    </Text>
                 </Box>
                 <HStack bg='brand.50' mt='1.5'>
                     <Button

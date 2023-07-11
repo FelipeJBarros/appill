@@ -66,6 +66,7 @@ export default function Home({ navigation }: HomeScreenProps) {
                         <ScrollView>
                             {currentDayDoses.map(dose => (
                                 <ListItem
+                                    key={`${dose.medicationId}-${dose.time}`}
                                     name={dose.medication.name}
                                     taken={dose.taken}
                                     time={dose.time}
@@ -79,7 +80,7 @@ export default function Home({ navigation }: HomeScreenProps) {
                             flex={1} justifyContent='center' alignItems='center'
                             _text={{ color: 'neutral.300' }}
                         >
-                            Nenhuma medicação pra hoje
+                            Nenhuma medicação para esse dia
                         </Box>
                     )}
                 </VStack>
