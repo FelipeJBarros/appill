@@ -7,13 +7,18 @@ import {} from 'native-base'
 import DoseContext from "../../context/doseContext";
 import translate from "../../utils/translate";
 import { ActivityIndicator } from "react-native";
+import { useRoute } from '@react-navigation/native';
+
+// Dentro do componente AlarmScreen
+
 type AlarmScreenProps = NativeStackScreenProps<RootStackParamList, 'alarm'>
 export default function Alarm({ navigation }: AlarmScreenProps) {
     const { navigate } = navigation;
     const {dose, getDose, updateDose, isFeatching} = useContext(DoseContext)
     const [values, setValues] = useState({})
     const [data, setData] = useState('')
-    const id = "b831991d-7f08-4628-a180-730ec43b797f"
+    const route = useRoute();
+    const { id } = route.params;
     const getDataFormat = () =>{
         if(dose.time?.toString()){
             const data = dose.time?.toString();

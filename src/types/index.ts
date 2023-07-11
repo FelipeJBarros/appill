@@ -6,11 +6,13 @@ export type RootStackParamList = {
     settings: {}
     "register-medication": {}
     "tab-screens": {}
-    home: {}
+    home: {},
+    app: {}
 }
 
 export type RootTabParamList = {
     home: {}
     register: {}
     medication: {}
+    alarm: { id: string }
 }

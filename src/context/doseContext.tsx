@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import api from '../api';
+import { schedulePushNotification } from "../notification";
 
 interface DoseContextData {
   dose: {
@@ -20,7 +21,6 @@ interface DoseContextData {
   currentDayDoses: Array<Object>;
   isFeatching: boolean;
   getDose(id: string): Promise<{ error: boolean; errorMessage?: string }>;
-  uploadDose(values: object): Promise<{ error: boolean; errorMessage?: string }>;
   getCurrentDoses(date: string): Promise<{ error: boolean; errorMessage?: string }>;
   getDose(id: string): Promise<{ error: boolean; errorMessage?: string }>;
   updateDose(id: string, values: object): Promise<{ error: boolean; errorMessage?: string }>;
@@ -52,6 +52,9 @@ export function DoseProvider({ children }: DoseProviderProps) {
       const response = await api.get('/doses', { params: { date } })
       console.log("Doses do dia", JSON.stringify(response.data, null, 2))
       setCurrentDayDoses(response.data)
+      response.data.forEach((dose: any) =>{
+        schedulePushNotification(dose.medication.name, "nao esqueça de tomar sua medicação", dose.id, "2023-07-11T06:26:47.319Z")
+      })
       return { error: false }
     } catch (error: any) {
       if (error.response.data.statusCode === 500) {
